@@ -133,13 +133,13 @@ int ret = plot_graph(&params);
 
 <h4>Using from Python</h4>
 
+<b>Python wrapper under construction</b>
+
 * Cython install
 
 https://github.com/cython/cython/wiki/Installing
 
-
 * More info about Cython usage : http://docs.cython.org/src/tutorial/cython_tutorial.html and http://docs.cython.org/src/userguide/external_C_code.html
-
 
 </br/>
 
