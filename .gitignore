@@ -1,2 +1,3 @@
 *.o
-output_test/
+python-wrapper/build
+release/
