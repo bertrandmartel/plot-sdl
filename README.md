@@ -19,6 +19,8 @@ Current features available:
 <i>All points for a specific caption identifier will be joined by a line</i>
 <i>For now, only positive part of x,y axis is shown</i>
 
+![screenshot](https://raw.github.com/akinaru/plot-sdl/master/plot.png)
+
 * launch included test project :
 
 ```
