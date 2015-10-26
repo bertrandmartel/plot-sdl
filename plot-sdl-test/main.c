@@ -81,8 +81,8 @@ int main(int argc, char* argv[])
 	params.plot_window_title="plot-sdl";
 	params.font_text_path=argv[1];
 	params.font_text_size=18;
-	params.caption_text_x="Temps (s)";
-	params.caption_text_y="Debit (Mbit/s)";
+	params.caption_text_x="Time (s)";
+	params.caption_text_y="Speed (Mbit/s)";
 	params.caption_list = caption_list;
 	params.coordinate_list = coordinate_list;
 	params.scale_x = 1;
