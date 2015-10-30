@@ -89,6 +89,8 @@ public class PlotSDLActivity extends Activity implements View.OnKeyListener {
     // Load the .so
     static {
         System.loadLibrary("SDL2");
+        System.loadLibrary("SDL2_ttf");
+        System.loadLibrary("plotsdl");
         System.loadLibrary("plotsdl_wrapper");
     }
 
