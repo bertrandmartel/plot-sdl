@@ -32,7 +32,11 @@
 #ifndef LLIST
 #define LLIST
 
-#include "SDL2/SDL.h"
+#ifdef __ANDROID__
+#	include "SDL.h"
+#else
+#	include "SDL2/SDL.h"
+#endif
 
 //--------------CAPTION STRUCT --------------
 typedef struct caption_item caption_item;

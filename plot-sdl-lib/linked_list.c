@@ -32,7 +32,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "plotsdl/llist.h"
-#include "SDL2/SDL.h"
+
+#ifdef __ANDROID__
+#	include "SDL.h"
+#else
+#	include "SDL2/SDL.h"
+#endif
 
 /**
  * @brief clear_caption

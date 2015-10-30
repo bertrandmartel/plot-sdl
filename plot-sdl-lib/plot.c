@@ -30,9 +30,17 @@
 	@version 0.1
 */
 #include "stdio.h"
-#include "plot.h"
-#include "SDL2/SDL.h"
-#include "SDL2/SDL_ttf.h"
+#include "plotsdl/plot.h"
+
+#ifdef __ANDROID__
+#	include "SDL.h"
+#	include "SDL_ttf.h"
+	#include "android/log.h"
+#else
+#	include "SDL2/SDL.h"
+#	include "SDL2/SDL_ttf.h"
+#endif
+
 #include "plotsdl/llist.h"
 #include "math.h"
 
@@ -90,7 +98,9 @@ int plot_graph(plot_params *params)
 		SDL_WINDOWPOS_UNDEFINED,
 		params->screen_width, 
 		params->screen_heigth,
-		SDL_WINDOW_SHOWN);
+		SDL_WINDOW_FULLSCREEN);
+
+	//SDL_SetWindowFullscreen(plot.screen,SDL_WINDOW_FULLSCREEN);
 
 	draw_plot(&plot,params,&surface_list);
 
@@ -211,34 +221,17 @@ void draw_plot(splot *plot, plot_params *params, surfacelist *surface_list)
 		caption_y_position.x=plot_position.x;
 		caption_y_position.y=plot_position.y;
 
-		//caption x
-		SDL_Rect text_caption_x;
-		plot->textureX = SDL_CreateTextureFromSurface(plot->renderer, plot->captionX);
-		SDL_QueryTexture(plot->textureX, NULL, NULL, &text_caption_x.w, &text_caption_x.h);
-		text_caption_x.x=params->screen_width/2-text_caption_x.w/2;
-		text_caption_x.y=plot_position.y+plot_heigth+CAPTION_X_LABEL_OFFSET;
-		SDL_RenderCopy(plot->renderer, plot->textureX, NULL, &text_caption_x);
-
-		//caption y
-		SDL_Rect text_caption_y;
-		plot->textureY = SDL_CreateTextureFromSurface(plot->renderer, plot->captionY);
-		SDL_QueryTexture(plot->textureY, NULL, NULL, &text_caption_y.w, &text_caption_y.h);
-		text_caption_y.x=0;
-		text_caption_y.y=plot_mask_position.y+plot_heigth/2-text_caption_y.w/2;
-
-		//rotate caption y
-		SDL_Point caption_center={plot_position.x-CAPTION_Y_LABEL_OFFSET,0};
-		SDL_RendererFlip flip = SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL;
-		SDL_RenderCopyEx(plot->renderer,plot->textureY,NULL,&text_caption_y,90,&caption_center,flip);
-
 		draw_scale_graduation(plot->renderer,
 			params,
+			plot,
 			plot_width,
 			plot_heigth,
 			plot_mask_position,
 			plot->font,
 			font_color,
-			surface_list);
+			surface_list,
+			plot_position.x,
+			plot_position.y);
 
 		if (params->caption_list!=NULL)
 		{
@@ -308,6 +301,10 @@ void draw_plot(splot *plot, plot_params *params, surfacelist *surface_list)
 
 		SDL_RenderPresent(plot->renderer);
 
+		#ifdef __ANDROID__
+		__android_log_print(ANDROID_LOG_VERBOSE,APP_NAME,"plot finished");
+		#endif
+
 		wait_for_sdl_event();
 	}
 	else{
@@ -357,6 +354,7 @@ void draw_points(
 			float circle_y1=plot_mask_position.y+plot_heigth-(tmp->y/params->scale_y)*scale_y_num;
 
 			SDL_SetRenderDrawColor(renderer,0,0,0,255);
+
 			fill_circle(renderer,circle_x1,circle_y1,DOT_RADIUS);
 
 			SDL_SetRenderDrawColor(renderer,(caption_item->caption_color & 0xFF0000)>>16, 
@@ -389,6 +387,8 @@ void draw_points(
  *      SDL renderer object
  * @param params
  *      plot parameters (cf plot_params struct)
+ * @param plot
+ *      structure containing textures and surfaces
  * @param plot_width
  *      plot base width (with proportion to screen width)
  * @param plot_heigth
@@ -401,15 +401,22 @@ void draw_points(
  *      font color to be used
  * @param surface_list
  *      list of surfaces stored to be freed later
+ * @param plot_position_x
+ *      x position of plot
+ * @param plot_position_y
+ *      y position of plot
  */
 void draw_scale_graduation(SDL_Renderer * renderer,
 	plot_params *params,
+	splot *plot,
 	float plot_width,
 	float plot_heigth,
 	SDL_Rect plot_mask_position,
 	TTF_Font *font,
 	SDL_Color font_color,
-	surfacelist *surface_list){
+	surfacelist *surface_list,
+	int plot_position_x,
+	int plot_position_y){
 
 	int scale_x_num=plot_width/(params->max_x/params->scale_x);
 	int scale_y_num=plot_heigth/(params->max_y/params->scale_y);
@@ -422,6 +429,9 @@ void draw_scale_graduation(SDL_Renderer * renderer,
 	int point_number_x=(params->max_x/params->scale_x);
 
 	int i = 0;
+
+	int regular_caption_text_heigth=0;
+	int regular_caption_text_width=0;
 
 	for (i = 0; i< point_number_x+1;i++){
 
@@ -443,6 +453,8 @@ void draw_scale_graduation(SDL_Renderer * renderer,
 
 		init_pos_x+=scale_x_num;
 		current_scale+=params->scale_x;
+
+		regular_caption_text_heigth=caption_text.h;
 	}
 
 	current_scale=0;
@@ -468,9 +480,31 @@ void draw_scale_graduation(SDL_Renderer * renderer,
 		*surface_list=push_back_surface(*surface_list,caption_text_surface);
 
 		init_pos_y-=scale_y_num;
+
 		current_scale+=params->scale_y;
+
+		regular_caption_text_width=caption_text.w;
 	}
 
+	//caption y
+	SDL_Rect text_caption_y;
+	plot->textureY = SDL_CreateTextureFromSurface(plot->renderer, plot->captionY);
+	SDL_QueryTexture(plot->textureY, NULL, NULL, &text_caption_y.w, &text_caption_y.h);
+	text_caption_y.x=-1*regular_caption_text_width;
+	text_caption_y.y=plot_mask_position.y+plot_heigth/2+text_caption_y.w/4;
+
+	//rotate caption y
+	SDL_Point caption_center={plot_position_x-CAPTION_Y_LABEL_OFFSET,0};
+	SDL_RendererFlip flip = SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL;
+	SDL_RenderCopyEx(plot->renderer,plot->textureY,NULL,&text_caption_y,90,&caption_center,flip);
+
+	//caption x
+	SDL_Rect text_caption_x;
+	plot->textureX = SDL_CreateTextureFromSurface(plot->renderer, plot->captionX);
+	SDL_QueryTexture(plot->textureX, NULL, NULL, &text_caption_x.w, &text_caption_x.h);
+	text_caption_x.x=params->screen_width/2-text_caption_x.w/2;
+	text_caption_x.y=plot_position_y+plot_heigth+1*regular_caption_text_heigth;
+	SDL_RenderCopy(plot->renderer, plot->textureX, NULL, &text_caption_x);
 }
 
 /**

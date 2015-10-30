@@ -23,9 +23,7 @@
  */
 /**
 	main.c
-
 	testing plot-sdl-lib : create a new SDL window, plot points in a created graph featuring a cartesian coordinate system
-
 	@author Bertrand Martel
 	@version 0.1
 */

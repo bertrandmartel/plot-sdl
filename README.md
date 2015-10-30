@@ -1,9 +1,9 @@
 # plot-sdl : plot graphic lib using SDL2 #
 
 
-<i>Last update 26/10/2015</i>
+<i>Last update 30/10/2015</i>
 
-Small library using only SDL2 and SDL_TTf libraries to plot points (x,y) into a graph (coordinate cartesian system).
+Small library using only SDL2 and SDL_TTF libraries to plot points into a 2D graph
 
 Current features available:
 
@@ -135,8 +135,6 @@ int ret = plot_graph(&params);
 
 <h4>Using from Python</h4>
 
-<b>Python wrapper under construction</b>
-
 Build python wrapper extension :
 
 ```
@@ -254,7 +252,7 @@ python test.py
 ./build-wrapper.sh clean
 ```
 
-<i>font file wont be found if launced from a different directory</i>
+<i>font file wont be found if launched from a different directory</i>
 
 <b>Cython install</b>
 
@@ -265,7 +263,11 @@ More info about Cython usage :
 * http://docs.cython.org/src/tutorial/cython_tutorial.html
 * http://docs.cython.org/src/userguide/external_C_code.html
 
-</br/>
+<br/>
+
+<h4>Using Android</h4>
+
+<b>Android wrapper under construction</b>
 
 <h4>External link</h4>
 

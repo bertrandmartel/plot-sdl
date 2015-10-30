@@ -32,16 +32,22 @@
 #ifndef PLOT
 #define PLOT
 
-#include "SDL2/SDL.h"
-#include "SDL2/SDL_ttf.h"
-#include "llist.h"
+#ifdef __ANDROID__
+#	include "SDL.h"
+#	include "SDL_ttf.h"
+#	define APP_NAME "plot_sdl_impl"
+#else
+#	include "SDL2/SDL.h"
+#	include "SDL2/SDL_ttf.h"
+#endif
+
+#include "plotsdl/llist.h"
 
 #define DOT_RADIUS                    6
 #define CAPTION_OFFSET_CIRCLE_TO_TEXT 10
 #define CAPTION_OFFSET_DELIMITER      40
 #define GRADUATION_HEIGTH             10
-#define CAPTION_X_LABEL_OFFSET        30
-#define CAPTION_Y_LABEL_OFFSET        40
+#define CAPTION_Y_LABEL_OFFSET        10
 #define CAPTION_MARGIN                30
 
 //-------------Plot parameter structure  ------------
@@ -95,6 +101,8 @@ int plot_graph(plot_params *params);
  *      SDL renderer object
  * @param params
  *      plot parameters (cf plot_params struct)
+ * @param plot
+ *      structure containing textures and surfaces
  * @param plot_width
  *      plot base width (with proportion to screen width)
  * @param plot_heigth
@@ -107,8 +115,22 @@ int plot_graph(plot_params *params);
  *      font color to be used
  * @param surface_list
  *      list of surfaces stored to be freed later
+ * @param plot_position_x
+ *      x position of plot
+ * @param plot_position_y
+ *      y position of plot
  */
-void draw_scale_graduation(SDL_Renderer * renderer,plot_params *params,float plot_width,float plot_heigth,SDL_Rect plot_mask_position,TTF_Font *font,SDL_Color font_color,surfacelist *surface_list);
+void draw_scale_graduation(SDL_Renderer * renderer,
+	plot_params *params,
+	splot *plot,
+	float plot_width,
+	float plot_heigth,
+	SDL_Rect plot_mask_position,
+	TTF_Font *font,
+	SDL_Color font_color,
+	surfacelist *surface_list,
+	int plot_position_x,
+	int plot_position_y);
 
 /**
  * @brief draw_points
