@@ -30,9 +30,15 @@ make
 
 <i>test program require font text file (ttf) in argument, you can change it at will</i>
 
+plot-sdl is written in [C](#C/C++) and has some wrappers in other languages :
+
+* [Python](#Python)
+* [Android](#Android)
+* [Java](#Java)
+
 <hr/>
 
-<h4>Using from C/C++</h4>
+## C/C++
 
 * headers :
 
@@ -132,7 +138,7 @@ int ret = plot_graph(&params);
 
 <hr/>
 
-<h4>Using from Python</h4>
+## Python
 
 Build python wrapper extension :
 
@@ -255,7 +261,7 @@ python test.py
 
 <hr/>
 
-<h4>Using from Android</h4>
+## Android
 
 <b>Setup</b>
 
@@ -310,7 +316,7 @@ Located in ``./app/src/main/jni/wrapper``, ``SDL_android_main.c`` contains all J
 
 <hr/>
 
-<h4>Using from Java</h4>
+## Java
 
 These are the same api as Android wrapper
 
@@ -335,7 +341,7 @@ java -Djava.library.path=$WORKING_DIR -jar ./java/release/plotsdl-1.0.jar ../plo
 
 <hr/>
 
-<h4>External link</h4>
+## External links
 
 * tutorial on SDL : http://www.willusher.io/pages/sdl2/
 * installing cython : https://github.com/cython/cython/wiki/Installing
