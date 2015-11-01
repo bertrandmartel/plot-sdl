@@ -1,9 +1,8 @@
-# plot-sdl : plot graphic lib using SDL2 #
+# plot-sdl #
 
+<i>Last update 01/11/2015</i>
 
-<i>Last update 30/10/2015</i>
-
-Small library using only SDL2 and SDL_TTF libraries to plot points into a 2D graph
+Small library using SDL2 and SDL_TTF used to plot points into a 2D graph
 
 Current features available:
 
@@ -254,24 +253,98 @@ python test.py
 
 <i>font file wont be found if launched from a different directory</i>
 
-<b>Cython install</b>
+<hr/>
 
-* https://github.com/cython/cython/wiki/Installing
+<h4>Using from Android</h4>
 
-More info about Cython usage : 
+<b>Setup</b>
 
-* http://docs.cython.org/src/tutorial/cython_tutorial.html
-* http://docs.cython.org/src/userguide/external_C_code.html
+* Add android-ndk directory to your path before setup
 
-<br/>
+* In android-wrapper directory you'll find init-script.sh which will retrieve SDL and SDL_TTF mercurial repository 
 
-<h4>Using Android</h4>
+```
+cd android-wrapper
+./init-script.sh
+```
 
-<b>Android wrapper under construction</b>
+* By default, API_ABI is set to ``all`` which takes quite a long time to build SDL and SDL_TTF for all your ndk arch. You can modify ``./app/src/main/jni/Application.mk`` with a specific abi instead of ``APP_ABI := all``
+
+* Then you can build with ``build`` parameter
+
+```
+./init-script.sh build
+```
+
+* When you are done, open Android-studio project located in ``android-wrapper`` directory and run test app or build directly with gradle wrapper : ``./gradlew clean build``
+
+<b>JNI API</b>
+
+Located in ``./app/src/main/jni/wrapper``, ``SDL_android_main.c`` contains all JNI api used :
+
+* ``void nativePushCoordinate(int caption_id, int xcoord, int ycoord)`` : push a point with give coordinate (x,y)
+
+* ``void nativePushCaption(String caption_txt, int caption_id, int caption_color)`` : push a caption label identifying a graph
+
+* ``void nativePlotsdlQuit()`` : call SDL quit event to terminate process
+
+* ``void onNativeResize(int x, int y, int format)`` : resize SDL window to x width, y heigth with given pixel format
+
+* ``void nativePushPlotParams(int screen_width, int screen_heigth, String title, String fontFileName, int textSize, String xcaptionText, String ycaptionText, float scale_x, float scale_y, float max_x, float max_y)`` : push plot parameters used to plot points and setup graphs
+
+* ``void nativeInit()`` : initialize SDL and plot graph
+
+<b>Clean android wrapper</b>
+
+* To make an ndk clean :
+
+```
+./init-script.sh clean
+```
+
+* reset android wrapper (this will remove SDL and SDL_TTF repo) :
+
+```
+./init-script.sh distclean
+```
+
+<hr/>
+
+<h4>Using from Java</h4>
+
+These are the same api as Android wrapper
+
+* First, build wrapper : 
+
+```
+cd java-wrapper
+make
+```
+
+* Open Eclipse and open-project located in ``java-wrapper/java`` directory
+
+* Build project with ant : ``build.xml``
+
+* in command line : 
+
+```
+cd java-wrapper
+WORKING_DIR=`pwd`
+java -Djava.library.path=$WORKING_DIR -jar ./java/release/plotsdl-1.0.jar ../plot-sdl-test/opensans.ttf
+```
+
+<hr/>
 
 <h4>External link</h4>
 
+* tutorial on SDL : http://www.willusher.io/pages/sdl2/
+* installing cython : https://github.com/cython/cython/wiki/Installing
+* tutorial for cython : http://docs.cython.org/src/tutorial/cython_tutorial.html
+* cython Interfacing with External C Code : http://docs.cython.org/src/userguide/external_C_code.html
 * algorithm for drawing / filling circle : http://content.gpwiki.org/index.php/SDL:Tutorials:Drawing_and_Filling_Circles
 * midpoint circle algorithm : https://en.wikipedia.org/wiki/Midpoint_circle_algorithm
+* JNI : https://www3.ntu.edu.sg/home/ehchua/programming/java/JavaNativeInterface.html#zz-2.1
+* guide for building SDL for Android : https://wiki.libsdl.org/Android
+* additional explanation for SDL on Android : https://amos.me/blog/2013/android-sdl-and-the-ouya/
 
 <hr/>
