@@ -8,3 +8,6 @@ android-wrapper/.idea/libraries
 android-wrapper/app/.idea/libraries
 .DS_Store
 build
+SDL/
+SDL_ttf/
+obj/
