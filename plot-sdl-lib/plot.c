@@ -35,7 +35,7 @@
 #ifdef __ANDROID__
 #	include "SDL.h"
 #	include "SDL_ttf.h"
-	#include "android/log.h"
+#	include "android/log.h"
 #else
 #	include "SDL2/SDL.h"
 #	include "SDL2/SDL_ttf.h"
@@ -98,7 +98,7 @@ int plot_graph(plot_params *params)
 		SDL_WINDOWPOS_UNDEFINED,
 		params->screen_width, 
 		params->screen_heigth,
-		SDL_WINDOW_FULLSCREEN);
+		SDL_WINDOW_SHOWN);
 
 	//SDL_SetWindowFullscreen(plot.screen,SDL_WINDOW_FULLSCREEN);
 
