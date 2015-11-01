@@ -41,7 +41,7 @@
 #	include "SDL2/SDL_ttf.h"
 #endif
 
-#include "plotsdl/llist.h"
+#include "llist.h"
 
 #define DOT_RADIUS                    6
 #define CAPTION_OFFSET_CIRCLE_TO_TEXT 10
