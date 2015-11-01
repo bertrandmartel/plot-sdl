@@ -14,9 +14,14 @@ Current features available:
 * set scale value and max value for X axis and Y axis (graduation are shown on the graph)
 * set window size (width/height)
 
-
 <i>All points for a specific caption identifier will be joined by a line</i>
 <i>For now, only positive part of x,y axis is shown</i>
+
+plot-sdl is written in [C](#c) and has some wrappers for other languages/platforms :
+
+* [Python](#python)
+* [Android](#android)
+* [Java](#java)
 
 ![screenshot](https://raw.github.com/akinaru/plot-sdl/master/plot.png)
 
@@ -30,15 +35,9 @@ make
 
 <i>test program require font text file (ttf) in argument, you can change it at will</i>
 
-plot-sdl is written in [C](#C/C++) and has some wrappers in other languages :
-
-* [Python](#Python)
-* [Android](#Android)
-* [Java](#Java)
-
 <hr/>
 
-## C/C++
+## C
 
 * headers :
 
