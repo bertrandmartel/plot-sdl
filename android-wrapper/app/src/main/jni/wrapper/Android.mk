@@ -6,7 +6,7 @@ LOCAL_MODULE := plotsdl_wrapper
 
 SDL_PATH := ../SDL
 
-LOCAL_C_INCLUDES := /home/abathur/Bureau/open_source/plot-sdl/release/include
+LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../../../../release/include
 LOCAL_C_INCLUDES += $(LOCAL_PATH)/$(SDL_PATH)/include
 
 # Add your application source files here...

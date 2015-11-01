@@ -6,11 +6,11 @@ LOCAL_MODULE := plotsdl
 
 SDL_PATH := ../SDL
 
-LOCAL_C_INCLUDES := /home/abathur/Bureau/open_source/plot-sdl/release/include
+LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../../../../release/include
 LOCAL_C_INCLUDES += $(LOCAL_PATH)/$(SDL_PATH)/include
 
-LOCAL_SRC_FILES := /home/abathur/Bureau/open_source/plot-sdl/plot-sdl-lib/plot.c \
-	/home/abathur/Bureau/open_source/plot-sdl/plot-sdl-lib/linked_list.c
+LOCAL_SRC_FILES := ../../../../../../plot-sdl-lib/plot.c \
+	../../../../../../plot-sdl-lib/linked_list.c
 
 LOCAL_SHARED_LIBRARIES := SDL2 SDL2_ttf
 
