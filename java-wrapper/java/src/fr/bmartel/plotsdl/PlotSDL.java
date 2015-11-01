@@ -75,6 +75,11 @@ public class PlotSDL {
 	public native void nativeInit();
 
 	public static void main(String[] args) {
+
+		if (args.length==0){
+			System.err.println("Missing agument : <font_file.ttf>");
+			return;
+		}
 		
 		PlotSDL sdl = new PlotSDL();
 
@@ -101,7 +106,7 @@ public class PlotSDL {
 		sdl.nativePushCaption("Download", 0, 0x0000FF);
 		sdl.nativePushCaption("Upload", 1, 0xFF0000);
 
-		sdl.nativePushPlotParams(1280, 720, "plot-sdl", "/home/abathur/Bureau/open_source/plot-sdl/plot-sdl-test/opensans.ttf", 25, "Time (s)",
+		sdl.nativePushPlotParams(1280, 720, "plot-sdl", args[0], 25, "Time (s)",
 				"Speed (Mbit/s)", 1f, 10f, 8.5f, 120f);
 		
 		sdl.nativePlotGraph();
