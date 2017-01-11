@@ -23,7 +23,7 @@ plot-sdl is written in [C](#c) and has some wrappers for other languages/platfor
 * [Android](#android)
 * [Java](#java)
 
-![screenshot](https://raw.github.com/akinaru/plot-sdl/master/plot.png)
+![screenshot](https://raw.github.com/bertrandmartel/plot-sdl/master/plot.png)
 
 * launch included test project :
 
